@@ -1,0 +1,10 @@
+In my project, both pthread and select() are used to handle multiple I/O operations in a single thread of execution.
+
+In chat_Server.c, 
+I used select() to multiplex the I/O operations of all connected clients in a single thread. 
+Whenever there is data to be read from a client or a new client wants to connect, select() will notify the server thread, which will handle the event accordingly. 
+In this way, we can handle multiple client connections in a single thread without having to create a new thread for each client.
+
+In chat_client.c, 
+I used pthread to create two threads: one for reading user input from stdin and sending it to the server, and another for receiving messages from the server and displaying them to the user. 
+In this way, the client program can handle user input and server messages simultaneously without blocking the main thread.
