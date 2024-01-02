@@ -1,10 +1,53 @@
-In my project, both pthread and select() are used to handle multiple I/O operations in a single thread of execution.
+Simple Chat Application
+This project consists of a chat server (chat_server) and chat client (chat_client) utilizing BSD TCP sockets for communication. The server maintains user account information and facilitates chat functionality, while the client sends broadcast or targeted messages to other clients.
 
-In chat_Server.c, 
-I used select() to multiplex the I/O operations of all connected clients in a single thread. 
-Whenever there is data to be read from a client or a new client wants to connect, select() will notify the server thread, which will handle the event accordingly. 
-In this way, we can handle multiple client connections in a single thread without having to create a new thread for each client.
+Features
+chat_server: Manages user accounts, facilitates communication.
+chat_client: Allows users to connect, chat, and disconnect.
+User Authentication: Login and logout functionality.
+Messaging: Send broadcast or targeted messages.
+Signal Handling: Properly handles the SIGINT signal (Ctrl-C).
+Pthread and select(): Utilizes these for I/O multiplexing.
 
-In chat_client.c, 
-I used pthread to create two threads: one for reading user input from stdin and sending it to the server, and another for receiving messages from the server and displaying them to the user. 
-In this way, the client program can handle user input and server messages simultaneously without blocking the main thread.
+chat_server
+chat_server configuration_file
+Configuration File
+The configuration file format includes entries in the following format:
+
+
+keyword: value
+Currently, only the port keyword is defined, specifying the port number.
+
+Server Functionality
+Reads configuration information.
+Creates and binds a socket.
+Displays server information.
+Listens for connection requests.
+Handles connection/disconnection requests from clients.
+
+chat_client
+chat_client configuration_file
+Configuration File
+The client configuration file includes entries in the format:
+
+
+keyword: value
+Defined keywords: servhost (server's hostname/IP) and servport (server's port).
+
+User Operations
+exit: Quit the client program.
+login username: Log into the server with a username.
+logout: Log out from the server.
+chat [@username] some_message: Send a chat message.
+Application Layer Protocol
+The project allows flexibility in designing the application layer protocol for message exchange between the client and server. Following well-established principles akin to HTTP and SMTP is recommended.
+
+Mandatory Implementation Requirements
+Pthread and select()
+Pthread and select() must be used for I/O multiplexing. Document how pthread and select() are employed in your project.
+
+Signal Handling
+Handle the SIGINT signal to close opened socket connections before program exit.
+
+Socket Connection Closure
+Properly close opened socket connections (e.g., on "exit" command) before exiting the program.
